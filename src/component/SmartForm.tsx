@@ -1,8 +1,5 @@
 import React from "react";
-
-type Props = {};
-
-const SmartForm = (props: Props) => {
+const SmartForm = () => {
   return <div>SmartForm</div>;
 };
 
