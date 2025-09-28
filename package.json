@@ -1,0 +1,45 @@
+{
+  "name": "formik-yup-smartform",
+  "version": "1.0.0",
+  "description": "formik-yup-smartform is a lightweight React component that automatically generates forms using Formik and Yup. Just pass a validation schema, field configuration, and submit handler — the form is built for you with validation, error messages, and minimal boilerplate.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --config jest.config.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/milshanfernando/formik-yup-smartform.git"
+  },
+  "keywords": [
+    "formik",
+    "react",
+    "yup",
+    "form",
+    "typescript"
+  ],
+  "author": "Milshan Fernando",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/milshanfernando/formik-yup-smartform/issues"
+  },
+  "homepage": "https://github.com/milshanfernando/formik-yup-smartform#readme",
+"dependencies": {
+  "react": "^19.1.1",
+  "react-dom": "^19.1.1",
+  "formik": "^2.4.5",
+  "yup": "^1.4.0",
+  "@jest/globals": "^30.2.0",
+  "@testing-library/react": "^16.3.0"
+},
+"devDependencies": {
+  "@types/react": "^19.1.15",
+  "@types/jest": "^29.5.12",
+  "jest": "^30.2.0",
+  "jest-environment-jsdom": "^30.2.0",
+  "ts-jest": "^29.4.4",
+  "ts-node": "^10.9.2",
+  "typescript": "^5.9.2",
+  "@testing-library/jest-dom": "^6.5.0"
+}
+
+}
