@@ -3,7 +3,6 @@ import * as Yup from "yup";
 import "../src/index.css";
 
 function App() {
-  // Step 1: Create Yup validation schema
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .required("Name is required")
@@ -17,7 +16,11 @@ function App() {
   return (
     <div className="w-fit mx-auto p-4">
       <SmartForm
+        isLoading={true}
         validationSchema={validationSchema}
+        labelTextColor="text-green-800 dark:text-green-100"
+        buttonBgColor="bg-green-600 hover:bg-green-700"
+        buttonTextColor="text-white"
         formValues={[
           { name: "name", type: "text", label: "Name", required: true },
           { name: "email", type: "email", label: "Email", required: true },

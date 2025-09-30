@@ -20,15 +20,19 @@ type Field = {
   type: FieldType;
   label?: string;
   placeholder?: string;
-  options?: string[]; // For checkbox & radio
-  required?: boolean; // Optional custom required
+  options?: string[];
+  required?: boolean;
 };
 
 type Props = {
   formValues: Field[];
   width?: string;
   formSubmit: (values: Record<string, unknown>) => void;
-  validationSchema?: Yup.ObjectSchema<any>; // optional
+  validationSchema?: Yup.ObjectSchema<any>;
+  isLoading?: boolean;
+  buttonBgColor?: string;
+  buttonTextColor?: string;
+  labelTextColor?: string;
 };
 
 const SmartForm = ({
@@ -36,8 +40,11 @@ const SmartForm = ({
   width = "max-w-xl",
   formSubmit,
   validationSchema,
+  isLoading = false,
+  buttonBgColor = "bg-blue-600 hover:bg-blue-700",
+  buttonTextColor = "text-white",
+  labelTextColor = "text-gray-800 dark:text-gray-100",
 }: Props) => {
-  // Step 1: Initial values
   const initialValues = formValues.reduce((acc, field) => {
     switch (field.type) {
       case "checkbox":
@@ -52,13 +59,12 @@ const SmartForm = ({
     return acc;
   }, {} as Record<string, unknown>);
 
-  // Step 2: Auto-generate simple validation **only if user didn't provide one**
   const schema =
     validationSchema ||
     Yup.object().shape(
       formValues.reduce((shape, field) => {
         if (!field.required) {
-          shape[field.name] = Yup.mixed(); // optional field
+          shape[field.name] = Yup.mixed();
           return shape;
         }
 
@@ -95,7 +101,6 @@ const SmartForm = ({
       }, {} as Record<string, Yup.AnySchema>)
     );
 
-  // Step 3: Setup Formik
   const {
     handleChange,
     values,
@@ -123,7 +128,9 @@ const SmartForm = ({
         if (type === "checkbox") {
           return (
             <div key={name} className="space-y-1">
-              <label className="flex items-center space-x-3 cursor-pointer text-gray-800 dark:text-gray-100">
+              <label
+                className={`flex items-center space-x-3 cursor-pointer ${labelTextColor}`}
+              >
                 <input
                   type="checkbox"
                   name={name}
@@ -145,9 +152,7 @@ const SmartForm = ({
         if (type === "radio" && options) {
           return (
             <div key={name} className="space-y-1">
-              <p className="font-medium text-gray-800 dark:text-gray-100">
-                {label || name}
-              </p>
+              <p className={`font-medium ${labelTextColor}`}>{label || name}</p>
               <div className="flex space-x-4">
                 {options.map((opt) => (
                   <label
@@ -163,9 +168,7 @@ const SmartForm = ({
                       onBlur={handleBlur}
                       className="h-4 w-4 text-blue-600 focus:ring-2 focus:ring-blue-400"
                     />
-                    <span className="text-gray-800 dark:text-gray-100">
-                      {opt}
-                    </span>
+                    <span className={`font-medium`}>{opt}</span>
                   </label>
                 ))}
               </div>
@@ -180,7 +183,7 @@ const SmartForm = ({
         if (type === "file") {
           return (
             <div key={name} className="space-y-1">
-              <label className="font-medium text-gray-800 dark:text-gray-100">
+              <label className={`font-medium ${labelTextColor}`}>
                 {label || name}
               </label>
               <input
@@ -190,7 +193,7 @@ const SmartForm = ({
                   setFieldValue(name, e.currentTarget.files?.[0] || null)
                 }
                 onBlur={handleBlur}
-                className="block w-full text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className={`block w-full ${labelTextColor} bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400`}
               />
               {touched[name] && errors[name] && (
                 <p className="text-red-500 text-sm">{errors[name] as string}</p>
@@ -202,7 +205,7 @@ const SmartForm = ({
         // Default input
         return (
           <div key={name} className="space-y-1">
-            <label className="block font-medium text-gray-800 dark:text-gray-100">
+            <label className={`block font-medium ${labelTextColor}`}>
               {label || name}
             </label>
             <input
@@ -214,7 +217,7 @@ const SmartForm = ({
               }
               onChange={handleChange}
               onBlur={handleBlur}
-              className="block w-full text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
+              className={`block w-full ${labelTextColor} bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400`}
             />
             {touched[name] && errors[name] && (
               <p className="text-red-500 text-sm">{errors[name] as string}</p>
@@ -225,9 +228,32 @@ const SmartForm = ({
 
       <button
         type="submit"
-        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg shadow-md transition-all duration-200"
+        disabled={isLoading}
+        className={`w-full flex items-center justify-center gap-2 ${buttonBgColor} ${buttonTextColor} font-semibold py-2 rounded-lg shadow-md transition-all duration-200`}
       >
-        Submit
+        {isLoading && (
+          <svg
+            className="animate-spin h-5 w-5 text-white"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            ></circle>
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+            ></path>
+          </svg>
+        )}
+        {isLoading ? "Submitting..." : "Submit"}
       </button>
     </form>
   );
