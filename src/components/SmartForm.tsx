@@ -53,14 +53,7 @@ const SmartForm = ({ formValues, width = "max-w-xl", formSubmit }: Props) => {
     });
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className={`${width} mx-auto p-6 bg-white dark:bg-gray-900 shadow-lg rounded-lg space-y-5`}
-    >
-      <h2 className="text-2xl font-bold mb-4 text-center text-gray-800 dark:text-gray-100">
-        Smart Form
-      </h2>
-
+    <form onSubmit={handleSubmit} className={`${width} mx-auto p-6 space-y-5`}>
       {formValues.map((field) => {
         const { name, type, label, placeholder, options } = field;
 
