@@ -1,4 +1,4 @@
 import SmartForm from "./components/SmartForm";
-import "./index.css";
+import "../dist/index.css";
 
 export { SmartForm };
