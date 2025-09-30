@@ -6,6 +6,7 @@
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "style": "./dist/index.css",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",

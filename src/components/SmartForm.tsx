@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-
+import "./index.css";
 type FieldType =
   | "text"
   | "number"
