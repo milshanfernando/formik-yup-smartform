@@ -1,5 +1,5 @@
 import SmartForm from "./components/SmartForm";
-import "./index.css";
+import "../src/index.css";
 function App() {
   return (
     <div className=" w-fit mx-auto p-4 ">
